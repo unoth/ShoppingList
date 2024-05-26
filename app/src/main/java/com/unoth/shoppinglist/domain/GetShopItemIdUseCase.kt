@@ -1,7 +1,7 @@
 package com.unoth.shoppinglist.domain
 
-class GetShopItemIdUseCase {
+class GetShopItemIdUseCase(private val shopListRepository: ShopListRepository) {
     fun getShopItemId(shopItemId: Int): ShopItem {
-        TODO()
+        return shopListRepository.getShopItemId(shopItemId)
     }
 }
