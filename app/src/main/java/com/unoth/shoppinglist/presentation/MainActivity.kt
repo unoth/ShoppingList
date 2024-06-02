@@ -1,4 +1,4 @@
-package com.unoth.shoppinglist
+package com.unoth.shoppinglist.presentation
 
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.unoth.shoppinglist.presentation.MainViewModel
+import com.unoth.shoppinglist.R
 
 class MainActivity : AppCompatActivity() {
 
