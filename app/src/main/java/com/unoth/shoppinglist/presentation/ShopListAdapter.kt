@@ -12,6 +12,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     companion object {
         const val ENABLED_VIEW_TYPE = 1
         const val DISABLED_VIEW_TYPE = 0
+        const val MAX_POOL_SIZE = 15
     }
 
     var shopList = listOf<ShopItem>()
