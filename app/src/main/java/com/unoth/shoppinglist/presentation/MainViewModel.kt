@@ -1,6 +1,5 @@
 package com.unoth.shoppinglist.presentation
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.unoth.shoppinglist.data.ShopListRepositoryImpl
 import com.unoth.shoppinglist.domain.EditShopItemUseCase
