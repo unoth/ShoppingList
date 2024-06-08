@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.unoth.shoppinglist.R
 import com.unoth.shoppinglist.domain.ShopItem
+import kotlin.concurrent.thread
 
 class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
     companion object {
@@ -17,6 +19,9 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
 
     var shopList = listOf<ShopItem>()
         set(value) {
+            val callback = ShopListDiffCallback(shopList, value)
+            val diffResult = DiffUtil.calculateDiff(callback)
+            diffResult.dispatchUpdatesTo(this)
             field = value
             notifyDataSetChanged()
         }
