@@ -39,6 +39,10 @@ class ShopItemActivity : AppCompatActivity() {
         parseIntent()
         viewmodel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         initViews()
+        when (screenMode) {
+            MODE_ADD -> launchAddMode()
+            MODE_EDIT -> launchEditMode()
+        }
     }
 
     private fun initViews() {
@@ -47,6 +51,23 @@ class ShopItemActivity : AppCompatActivity() {
         etName = findViewById(R.id.et_name)
         etCount = findViewById(R.id.et_count)
         btnSave = findViewById(R.id.btn_save)
+    }
+
+    private fun launchAddMode() {
+        btnSave.setOnClickListener {
+            viewmodel.addShopItem(etName.text?.toString(), etCount.text?.toString())
+        }
+    }
+
+    private fun launchEditMode() {
+        viewmodel.getShopItemId(shopItemId)
+        viewmodel.shopItem.observe(this) {
+            etName.setText(it.name)
+            etCount.setText(it.count.toString())
+        }
+        btnSave.setOnClickListener {
+            viewmodel.editShopItem(etName.text?.toString(), etCount.text?.toString())
+        }
     }
 
     private fun parseIntent() {
