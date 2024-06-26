@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -42,7 +41,7 @@ class ShopItemActivity : AppCompatActivity() {
         viewmodel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         initViews()
         launchRightMode()
-        observeViewMode()
+        observeViewModel()
         addTextChangedListener()
     }
 
@@ -61,7 +60,7 @@ class ShopItemActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeViewMode() {
+    private fun observeViewModel() {
         viewmodel.errorInputCount.observe(this) {
             val message = if (it) {
                 getString(R.string.error_input_count)
