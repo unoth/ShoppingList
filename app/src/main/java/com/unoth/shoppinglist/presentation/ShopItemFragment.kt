@@ -117,7 +117,7 @@ class ShopItemFragment(
 
     private fun launchEditMode() {
         viewmodel.getShopItemId(shopItemId)
-        viewmodel.shopItem.observe(this) {
+        viewmodel.shopItem.observe(viewLifecycleOwner) {
             etName.setText(it.name)
             etCount.setText(it.count.toString())
         }
