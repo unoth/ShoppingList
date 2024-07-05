@@ -7,7 +7,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -32,9 +31,9 @@ class MainActivity : AppCompatActivity() {
         shopItemContainer = findViewById(R.id.shop_item_container)
         setupRecyclerView()
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.shopList.observe(this, Observer {
+        viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
-        })
+        }
 
         val btnAddItem = findViewById<FloatingActionButton>(R.id.btn_add_shop_item)
         btnAddItem.setOnClickListener {
