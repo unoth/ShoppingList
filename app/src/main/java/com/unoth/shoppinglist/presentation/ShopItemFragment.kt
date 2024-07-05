@@ -28,8 +28,9 @@ class ShopItemFragment : Fragment() {
     private var shopItemId = ShopItem.UNDEFINED_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("ShopItemFragment", "onCreate")
         super.onCreate(savedInstanceState)
-        parseIntent()
+        parseParam()
     }
 
     override fun onCreateView(
@@ -139,7 +140,7 @@ class ShopItemFragment : Fragment() {
         }
     }
 
-    private fun parseIntent() {
+    private fun parseParam() {
         val args = requireArguments()
         if (!args.containsKey(SCREEN_MODE)) {
             throw RuntimeException("Param screen mode is absent")
