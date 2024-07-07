@@ -1,20 +1,20 @@
 package com.unoth.shoppinglist.presentation
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.unoth.shoppinglist.R
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
@@ -32,9 +32,9 @@ class MainActivity : AppCompatActivity() {
         shopItemContainer = findViewById(R.id.shop_item_container)
         setupRecyclerView()
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.shopList.observe(this, Observer {
+        viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
-        })
+        }
 
         val btnAddItem = findViewById<FloatingActionButton>(R.id.btn_add_shop_item)
         btnAddItem.setOnClickListener {
@@ -115,5 +115,10 @@ class MainActivity : AppCompatActivity() {
         shopListAdapter.onShopItemLongClickListener = {
             viewModel.changeEnableState(it)
         }
+    }
+
+    override fun onEditingFinished() {
+        Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
     }
 }
