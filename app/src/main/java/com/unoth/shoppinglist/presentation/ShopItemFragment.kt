@@ -12,8 +12,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.unoth.shoppinglist.databinding.FragmentShopItemBinding
 import com.unoth.shoppinglist.domain.ShopItem
+import javax.inject.Inject
 
 class ShopItemFragment : Fragment() {
+
+    private val component by lazy {
+        (requireActivity().application as ShoppingListApp).component
+    }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewmodel: ShopItemViewModel
     private lateinit var onEditingFinishedListener: OnEditingFinishedListener
@@ -48,7 +56,7 @@ class ShopItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d("ShopItemFragment", "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
-        viewmodel = ViewModelProvider(this)[ShopItemViewModel::class.java]
+        viewmodel = ViewModelProvider(this, viewModelFactory)[ShopItemViewModel::class.java]
         binding.viewModel = viewmodel
         binding.lifecycleOwner = viewLifecycleOwner
         launchRightMode()
@@ -93,6 +101,7 @@ class ShopItemFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
+        component.inject(this)
         super.onAttach(context)
         Log.d("ShopItemFragment", "onAttach")
         if (context is OnEditingFinishedListener) {
