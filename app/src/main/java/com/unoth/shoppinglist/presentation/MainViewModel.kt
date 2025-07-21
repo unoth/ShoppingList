@@ -1,22 +1,19 @@
 package com.unoth.shoppinglist.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.unoth.shoppinglist.data.ShopListRepositoryImpl
 import com.unoth.shoppinglist.domain.EditShopItemUseCase
 import com.unoth.shoppinglist.domain.GetShopListUseCase
 import com.unoth.shoppinglist.domain.RemoveShopItemUseCase
 import com.unoth.shoppinglist.domain.ShopItem
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = ShopListRepositoryImpl(application)
-
-    private val getShopListUseCase = GetShopListUseCase(repository)
-    private val removeShopItemUseCase = RemoveShopItemUseCase(repository)
-    private val editShopItemUseCase = EditShopItemUseCase(repository)
+class MainViewModel @Inject constructor(
+    private val getShopListUseCase: GetShopListUseCase,
+    private val removeShopItemUseCase: RemoveShopItemUseCase,
+    private val editShopItemUseCase: EditShopItemUseCase
+) : ViewModel() {
 
     val shopList = getShopListUseCase.getShopList()
 
