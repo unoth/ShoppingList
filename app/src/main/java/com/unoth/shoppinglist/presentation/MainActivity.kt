@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         }
         thread {
             val cursor = contentResolver.query(
-                Uri.parse("content://com.unoth.shoppinglist/shop_items"),
+                Uri.parse(SHOP_ITEMS_URI),
                 null,
                 null,
                 null,
@@ -66,10 +66,10 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
                 null
             )
             while (cursor?.moveToNext() == true) {
-                val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
-                val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
-                val count = cursor.getInt(cursor.getColumnIndexOrThrow("count"))
-                val enabled = cursor.getInt(cursor.getColumnIndexOrThrow("enabled")) > 0
+                val id = cursor.getInt(cursor.getColumnIndexOrThrow(SHOP_ITEMS_ID))
+                val name = cursor.getString(cursor.getColumnIndexOrThrow(SHOP_ITEMS_NAME))
+                val count = cursor.getInt(cursor.getColumnIndexOrThrow(SHOP_ITEMS_COUNT))
+                val enabled = cursor.getInt(cursor.getColumnIndexOrThrow(SHOP_ITEMS_ENABLED)) > 0
                 val shopItem = ShopItem(
                     id = id,
                     name = name,
@@ -154,5 +154,14 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
     override fun onEditingFinished() {
         Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
         supportFragmentManager.popBackStack()
+    }
+
+    companion object {
+        private const val SHOP_ITEMS_URI = "content://com.unoth.shoppinglist/shop_items"
+        private const val SHOP_ITEMS_ID = "id"
+        private const val SHOP_ITEMS_NAME = "name"
+        private const val SHOP_ITEMS_COUNT = "count"
+        private const val SHOP_ITEMS_ENABLED = "enabled"
+
     }
 }
