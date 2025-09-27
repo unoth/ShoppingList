@@ -186,10 +186,23 @@ class ShopItemFragment : Fragment() {
     private fun launchEditMode() {
         viewmodel.getShopItemId(shopItemId)
         binding.btnSave.setOnClickListener {
-            viewmodel.editShopItem(
+/*            viewmodel.editShopItem(
                 binding.etName.text?.toString(),
                 binding.etCount.text?.toString()
-            )
+            )*/
+            thread {
+                context?.contentResolver?.update(
+                    Uri.parse(SHOP_ITEMS_URI),
+                    ContentValues().apply {
+                        put(SHOP_ITEMS_ID, 0)
+                        put(SHOP_ITEMS_NAME, binding.etName.text?.toString())
+                        put(SHOP_ITEMS_COUNT, binding.etCount.text?.toString()?.toInt())
+                        put(SHOP_ITEMS_ENABLED, true)
+                    },
+                    null,
+                    null
+                )
+            }
         }
     }
 
