@@ -1,6 +1,8 @@
 package com.unoth.shoppinglist.presentation
 
+import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.unoth.shoppinglist.databinding.FragmentShopItemBinding
 import com.unoth.shoppinglist.domain.ShopItem
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 class ShopItemFragment : Fragment() {
 
@@ -162,7 +165,21 @@ class ShopItemFragment : Fragment() {
 
     private fun launchAddMode() {
         binding.btnSave.setOnClickListener {
-            viewmodel.addShopItem(binding.etName.text?.toString(), binding.etCount.text?.toString())
+/*            viewmodel.addShopItem(
+                binding.etName.text?.toString(),
+                binding.etCount.text?.toString()
+            )*/
+            thread {
+                context?.contentResolver?.insert(
+                    Uri.parse(SHOP_ITEMS_URI),
+                    ContentValues().apply {
+                        put(SHOP_ITEMS_ID, 0)
+                        put(SHOP_ITEMS_NAME, binding.etName.text?.toString())
+                        put(SHOP_ITEMS_COUNT, binding.etCount.text?.toString()?.toInt())
+                        put(SHOP_ITEMS_ENABLED, true)
+                    }
+                )
+            }
         }
     }
 
@@ -200,6 +217,11 @@ class ShopItemFragment : Fragment() {
         private const val MODE_ADD = "mode_add"
         private const val MODE_EDIT = "mode_edit"
         private const val MODE_UNKNOWN = ""
+        private const val SHOP_ITEMS_URI = "content://com.unoth.shoppinglist/shop_items"
+        private const val SHOP_ITEMS_ID = "id"
+        private const val SHOP_ITEMS_NAME = "name"
+        private const val SHOP_ITEMS_COUNT = "count"
+        private const val SHOP_ITEMS_ENABLED = "enabled"
 
         fun newInstanceEditItem(shopItemId: Int): ShopItemFragment {
             return ShopItemFragment().apply {
